@@ -3,23 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Camera Broadcast</title>
+<title>Camera Access</title>
 <style>
-  #video-container {
-    width: 100%;
-    text-align: center;
-  }
-  video {
-    max-width: 100%;
-    height: auto;
-  }
+    video {
+        width: 100%;
+        max-width: 600px;
+    }
 </style>
 </head>
 <body>
-<div id="video-container">
-  <video id="video" autoplay></video>
-  <button id="startButton">Start Broadcasting</button>
-</div>
-<script src="app.js"></script>
+<h1>Camera Access</h1>
+<p>Click the button below to access your camera:</p>
+<button id="startButton">Start Camera</button>
+<br><br>
+<label for="owner">Set Camera Owner:</label>
+<input type="text" id="owner" placeholder="Enter owner name">
+<br><br>
+<video id="videoElement" autoplay muted></video>
+
+<script>
+    const startButton = document.getElementById('startButton');
+    const videoElement = document.getElementById('videoElement');
+    const ownerInput = document.getElementById('owner');
+
+    startButton.addEventListener('click', async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoElement.srcObject = stream;
+        } catch (err) {
+            console.error('Error accessing camera: ', err);
+        }
+    });
+
+    ownerInput.addEventListener('input', () => {
+        videoElement.setAttribute('owner', ownerInput.value);
+    });
+</script>
 </body>
 </html>
