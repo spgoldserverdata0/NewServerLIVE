@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Camera Access</title>
+<title>Camera Broadcast</title>
 <style>
   #video-container {
     width: 100%;
@@ -19,19 +19,6 @@
 <div id="video-container">
   <video id="video" autoplay></video>
 </div>
-<script>
-// Function to handle errors
-function handleError(error) {
-  console.error('Error accessing the camera:', error);
-}
-
-// Access the user's camera
-navigator.mediaDevices.getUserMedia({ video: true })
-  .then(function(stream) {
-    var video = document.getElementById('video');
-    video.srcObject = stream;
-  })
-  .catch(handleError);
-</script>
+<script src="app.js"></script>
 </body>
 </html>
