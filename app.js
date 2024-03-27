@@ -3,18 +3,30 @@ function handleError(error) {
   console.error('Error accessing the camera:', error);
 }
 
-// Access the user's camera
-navigator.mediaDevices.getUserMedia({ video: true })
-  .then(function(stream) {
-    var video = document.getElementById('video');
-    video.srcObject = stream;
-    
-    // Initialize the broadcaster
-    initializeBroadcaster(stream);
-  })
-  .catch(handleError);
+// Initialize variables
+var isBroadcaster = false;
 
-// Initialize the broadcaster
+// Function to start broadcasting
+function startBroadcasting() {
+  // Access the user's camera
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) {
+      var video = document.getElementById('video');
+      video.srcObject = stream;
+      
+      // Initialize as broadcaster
+      isBroadcaster = true;
+      
+      // Initialize broadcaster functionality
+      initializeBroadcaster(stream);
+      
+      // Disable the start button
+      document.getElementById('startButton').disabled = true;
+    })
+    .catch(handleError);
+}
+
+// Function to initialize broadcaster
 function initializeBroadcaster(stream) {
   // Create RTCPeerConnection
   var pc = new RTCPeerConnection();
@@ -123,3 +135,8 @@ function getBroadcasterPeerConnection() {
   // Simulate getting the broadcaster's RTCPeerConnection (in a real scenario, you'd store this reference)
   return new RTCPeerConnection();
 }
+
+// Event listener for the start button
+document.getElementById('startButton').addEventListener('click', function() {
+  startBroadcasting();
+});
